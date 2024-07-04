@@ -1,11 +1,11 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 
-//Importo los componentes
+import Footer from './components/Footer';
 import Content from './components/Content';
 
 function App() {
-    //Estado para alojar la última tecla presionada
+    // Estado para alojar la última tecla presionada
     const [key, setKey] = useState(null);
 
     useEffect(() => {
@@ -24,9 +24,14 @@ function App() {
     }, []);
 
     return (
-        <>
-            <Content keyPressed={key} />
-        </>
+        <div className="relative min-h-screen">
+            <div>
+                {' '}
+                {/* Padding bottom para dejar espacio para el footer */}
+                <Content keyPressed={key} />
+            </div>
+            <Footer className="absolute bottom-0 left-0 w-full mt-20" />
+        </div>
     );
 }
 
