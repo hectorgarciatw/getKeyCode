@@ -10,7 +10,7 @@ export default function Display({ keyPressed }) {
                 <div className="mx-auto rounded-2xl border border-gray-200 p-6 shadow-sm sm:px-8 lg:p-12">
                     <div className="text-center">
                         <div style={{ fontSize: "40px" }}>⌨️</div>
-                        <h2 className="text-lg font-medium text-white">keyCode</h2>
+                        {filteredKey && <h2 className="text-lg font-medium text-white">keyCode</h2>}
 
                         <p className="mt-2 sm:mt-4">
                             {filteredKey ? (
@@ -18,7 +18,7 @@ export default function Display({ keyPressed }) {
                                     {filteredKey.keyCode}
                                 </strong>
                             ) : (
-                                <strong>KeyCode not found</strong>
+                                <strong>Press a valid key please...</strong>
                             )}
                         </p>
                     </div>
