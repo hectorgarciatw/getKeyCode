@@ -7,6 +7,7 @@ export default function Content({ keyPressed }) {
 
     const handleKeyDown = (event) => {
         setKey(event.key);
+        event.target.value = ""; // Clear the input field
     };
 
     return (
