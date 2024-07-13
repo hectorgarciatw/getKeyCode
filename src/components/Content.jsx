@@ -5,9 +5,18 @@ import Display from "./Display";
 export default function Content({ keyPressed }) {
     const [key, setKey] = useState(null);
 
+    const handleInput = (event) => {
+        const input = event.target.value;
+        if (input.length > 0) {
+            setKey(input[input.length - 1]);
+        }
+    };
+
     const handleKeyDown = (event) => {
-        setKey(event.key);
-        event.target.value = ""; // Clear the input field
+        if (isMobile) {
+            setKey(event.key);
+            event.target.value = ""; // Clear the input field
+        }
     };
 
     return (
@@ -18,7 +27,11 @@ export default function Content({ keyPressed }) {
                         getKeyCode
                         <span className="sm:block"> US standard 101 </span>
                     </h1>
-                    {isMobile ? <input type="text" className="mt-6 border p-2 text-xl" onKeyDown={handleKeyDown} placeholder="Presiona una tecla" /> : <p className="mt-6 text-xl">Press the key you want to get the keycode for.</p>}
+                    {isMobile ? (
+                        <input type="text" className="mt-6 border p-2 text-xl" onInput={handleInput} onKeyDown={handleKeyDown} placeholder="Presiona una tecla" />
+                    ) : (
+                        <p className="mt-6 text-xl">Press the key you want to get the keycode for.</p>
+                    )}
                     <Display keyPressed={key || keyPressed} />
                 </div>
             </div>
