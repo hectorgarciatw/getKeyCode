@@ -9,7 +9,7 @@ export default function Content({ keyPressed }) {
     // Manejar cuando el usuario escribe en el input
     const handleChange = (event) => {
         const input = event.target.value;
-        setInputValue(input);
+        setInputValue(input); // Actualiza el valor del input
         if (input.length > 0) {
             setKey(input[input.length - 1]);
         }
@@ -18,23 +18,20 @@ export default function Content({ keyPressed }) {
     // Manejar el evento keydown
     const handleKeyDown = (event) => {
         if (isMobile) {
-            // Captura la tecla presionada con un setTimeout
-            setTimeout(() => {
-                setKey(event.key);
-                setInputValue('');
-                event.target.blur();
-            }, 0);
+            // Captura la tecla presionada
+            setKey(event.key);
+            setInputValue(''); // Limpia el input
+            event.target.blur(); // Cierra el teclado virtual
         }
     };
 
     // Asegurarse de que el input tenga foco
-    const handleFocus = () => {
-        // Establece un pequeño retraso para garantizar que el foco esté activo
-        setTimeout(() => {
-            const inputElement = document.querySelector('input');
-            if (inputElement) inputElement.focus();
-        }, 0);
-    };
+    useEffect(() => {
+        const inputElement = document.querySelector('input');
+        if (inputElement) {
+            inputElement.focus(); // Foco en el input
+        }
+    }, []);
 
     // Efecto para ajustar el scroll cuando el teclado virtual aparece
     useEffect(() => {
@@ -60,7 +57,14 @@ export default function Content({ keyPressed }) {
                         <span className="sm:block"> US standard 101 </span>
                     </h1>
                     {isMobile ? (
-                        <input type="text" className="mt-6 border p-2 text-xl" value={inputValue} onChange={handleChange} onKeyDown={handleKeyDown} onFocus={handleFocus} autoFocus />
+                        <input
+                            type="text"
+                            className="mt-6 border p-2 text-xl"
+                            value={inputValue} // Controla el valor del input
+                            onChange={handleChange}
+                            onKeyDown={handleKeyDown}
+                            autoFocus
+                        />
                     ) : (
                         <p className="mt-6 text-xl">Press the key you want to get the keycode for.</p>
                     )}
