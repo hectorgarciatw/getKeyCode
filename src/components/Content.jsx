@@ -10,7 +10,6 @@ export default function Content({ keyPressed }) {
         if (isMobile) {
             // Captura la tecla presionada
             setKey(event.key);
-            event.target.value = '';
             // Cerrar el teclado virtual después de presionar
             event.target.blur();
         }
