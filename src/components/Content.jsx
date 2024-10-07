@@ -14,8 +14,9 @@ export default function Content({ keyPressed }) {
             // Después de un pequeño retraso, limpia el campo y cierra el teclado virtual
             setTimeout(() => {
                 event.target.blur();
-                event.target.value = ""; // Limpiar después de capturar la tecla
-            }, 50); // 50 ms de retraso para garantizar que el valor sea capturado
+                //Limpiar después de capturar la tecla
+                event.target.value = "";
+            }, 50);
         }
     };
 
