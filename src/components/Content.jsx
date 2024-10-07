@@ -1,46 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { isMobile } from 'react-device-detect';
 import Display from './Display';
 
 export default function Content({ keyPressed }) {
-    const [key, setKey] = useState(null);
-
-    // Manejar cuando el usuario escribe en el input
-    const handleChange = (event) => {
-        const input = event.target.value;
-        if (input.length > 0) {
-            setKey(input[input.length - 1]);
-            event.target.placeholder = 'Press a key...';
-        }
-    };
-
-    // Manejar el evento keydown
-    const handleKeyDown = (event) => {
-        if (isMobile) {
-            // Captura la tecla presionada
-            setKey(event.key);
-            event.target.value = '';
-            event.target.placeholder = 'Press a key...';
-            // Cerrar el teclado virtual después de presionar
-            event.target.blur();
-        }
-    };
-
-    // Efecto para ajustar el scroll cuando el teclado virtual aparece
-    useEffect(() => {
-        const adjustForKeyboard = () => {
-            window.scrollTo(0, document.body.scrollHeight);
-        };
-
-        window.addEventListener('focusin', adjustForKeyboard);
-        window.addEventListener('focusout', () => window.scrollTo(0, 0));
-
-        return () => {
-            window.removeEventListener('focusin', adjustForKeyboard);
-            window.removeEventListener('focusout', () => window.scrollTo(0, 0));
-        };
-    }, []);
-
     return (
         <section className="bg-gray-900 text-white h-screen flex items-center">
             <div className="mx-auto max-w-screen-xl px-4 py-32 lg:flex lg:h-screen lg:items-center">
@@ -50,11 +12,12 @@ export default function Content({ keyPressed }) {
                         <span className="sm:block"> US standard 101 </span>
                     </h1>
                     {isMobile ? (
-                        <input type="text" className="mt-6 border p-2 text-xl" onChange={handleChange} onKeyDown={handleKeyDown} placeholder="Press a key..." autoFocus />
+                        // Input visible solo en dispositivos móviles
+                        <input type="text" className="mt-6 border p-2 text-xl" onChange={(e) => (e.target.placeholder = 'Press a key...')} placeholder="Press a key..." autoFocus />
                     ) : (
                         <p className="mt-6 text-xl">Press the key you want to get the keycode for.</p>
                     )}
-                    <Display keyPressed={key || keyPressed} />
+                    <Display keyPressed={keyPressed} />
                 </div>
             </div>
         </section>
