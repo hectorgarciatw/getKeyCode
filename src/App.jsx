@@ -44,7 +44,7 @@ function App() {
     return (
         <div className={`relative min-h-screen ${isKeyboardActive ? 'keyboard-active' : ''}`}>
             <div>
-                <Content keyPressed={key} setKey={setKey} />
+                <Content keyPressed={key || null} setKey={setKey} />
             </div>
             <Footer className="absolute bottom-0 left-0 w-full mt-20" />
         </div>

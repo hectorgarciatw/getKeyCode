@@ -8,11 +8,13 @@ export default function Content({ keyPressed }) {
     const inputRef = useRef(null);
 
     const handleChange = (event) => {
-        const input = event.target.value;
-        setInputValue(input);
-        if (input.length > 0) {
-            setKey(input[input.length - 1]);
-        }
+        setInputValue((prevInputValue) => {
+            const input = event.target.value;
+            if (input.length > 0) {
+                setKey(input[input.length - 1]);
+            }
+            return input;
+        });
     };
 
     const handleKeyDown = (event) => {
