@@ -7,18 +7,24 @@ export default function Content({ keyPressed }) {
 
     // Manejar cuando el usuario escribe en el input
     const handleChange = (event) => {
-        setKey(event.key);
-        event.target.value = '';
+        alert(`Recibo en handleChange: ${event.target.value}`);
+        const input = event.target.value;
+        if (input.length > 0) {
+            setKey(input[input.length - 1]);
+        }
     };
 
     // Manejar el evento keydown
     const handleKeyDown = (event) => {
         if (isMobile) {
-            // Captura la tecla presionada
-            setKey(event.key);
-            event.target.value = '';
-            // Cerrar el teclado virtual después de presionar
-            event.target.blur();
+            setTimeout(() => {
+                alert(`Recibo en handleKeyDown: ${event.target.value}`);
+                // Captura la tecla presionada
+                setKey(event.key);
+                event.target.value = ''; // Limpia el input
+                // Cerrar el teclado virtual después de presionar
+                event.target.blur();
+            }, 0); // Retardamos la ejecución a la siguiente iteración del event loop
         }
     };
 
