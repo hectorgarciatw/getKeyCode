@@ -18,7 +18,7 @@ export default function Content({ keyPressed }) {
         if (isMobile) {
             // Captura la tecla presionada
             setKey(event.key);
-            event.target.value = '';
+            event.target.value = 'Press a key';
             // Cerrar el teclado virtual después de presionar
             event.target.blur();
         }
@@ -48,7 +48,7 @@ export default function Content({ keyPressed }) {
                         <span className="sm:block"> US standard 101 </span>
                     </h1>
                     {isMobile ? (
-                        <input type="text" className="mt-6 border p-2 text-xl" onChange={handleChange} onKeyDown={handleKeyDown} placeholder="Press the key you want to get the keycode for" autoFocus />
+                        <input type="text" className="mt-6 border p-2 text-xl" onChange={handleChange} onKeyDown={handleKeyDown} placeholder="Press a key " autoFocus />
                     ) : (
                         <p className="mt-6 text-xl">Press the key you want to get the keycode for.</p>
                     )}
