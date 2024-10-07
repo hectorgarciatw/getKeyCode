@@ -31,7 +31,7 @@ function App() {
     useEffect(() => {
         if (!isMobile) {
             const handleKeyDown = (event) => {
-                setKey(event.key);
+                setKey(event.key.toLowerCase());
             };
             window.addEventListener('keydown', handleKeyDown);
 
