@@ -7,7 +7,6 @@ export default function Content({ keyPressed }) {
 
     // Manejar cuando el usuario escribe en el input
     const handleChange = (event) => {
-        alert(`Recibo en handleChange: ${event.target.value}`);
         const input = event.target.value;
         if (input.length > 0) {
             setKey(input[input.length - 1]);
@@ -18,7 +17,6 @@ export default function Content({ keyPressed }) {
     const handleKeyDown = (event) => {
         if (isMobile) {
             setTimeout(() => {
-                alert(`Recibo en handleKeyDown: ${event.target.value}`);
                 // Captura la tecla presionada
                 setKey(event.key);
                 event.target.value = ''; // Limpia el input
