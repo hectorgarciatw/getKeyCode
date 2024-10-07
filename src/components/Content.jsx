@@ -5,11 +5,20 @@ import Display from './Display';
 export default function Content({ keyPressed }) {
     const [key, setKey] = useState(null);
 
+    // Manejar cuando el usuario escribe en el input
+    const handleChange = (event) => {
+        const input = event.target.value;
+        if (input.length > 0) {
+            setKey(input[input.length - 1]);
+        }
+    };
+
     // Manejar el evento keydown
     const handleKeyDown = (event) => {
         if (isMobile) {
             // Captura la tecla presionada
             setKey(event.key);
+            event.target.value = '';
             // Cerrar el teclado virtual después de presionar
             event.target.blur();
         }
@@ -39,7 +48,7 @@ export default function Content({ keyPressed }) {
                         <span className="sm:block"> US standard 101 </span>
                     </h1>
                     {isMobile ? (
-                        <input type="text" style={{ textAlign: 'center' }} className="mt-6 border p-2 text-xl" onKeyDown={handleKeyDown} placeholder="Press a key please..." autoFocus />
+                        <input type="text" style={{ alignContent: 'center' }} className="mt-6 border p-2 text-xl" onChange={handleChange} onKeyDown={handleKeyDown} placeholder="Press a key please..." autoFocus />
                     ) : (
                         <p className="mt-6 text-xl">Press the key you want to get the keycode for.</p>
                     )}
