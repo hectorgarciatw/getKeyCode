@@ -9,6 +9,9 @@ export default function Content({ keyPressed }) {
         const input = event.target.value;
         if (input.length > 0) {
             setKey(input[input.length - 1]);
+
+            // Desenfocar el input para cerrar el teclado virtual
+            event.target.blur();
         }
     };
 
