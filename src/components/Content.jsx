@@ -1,21 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { isMobile } from "react-device-detect";
 import Display from "./Display";
 
 export default function Content({ keyPressed }) {
     const [key, setKey] = useState(null);
+    const inputRef = useRef(null);
 
-    const handleInput = (event) => {
-        const input = event.target.value;
-        if (input.length > 0) {
-            setKey(input[input.length - 1]);
+    useEffect(() => {
+        if (isMobile) {
+            // Enfocar el input automáticamente en móviles al cargar la página
+            inputRef.current.focus();
         }
-    };
+    }, []);
 
     const handleKeyDown = (event) => {
         if (isMobile) {
             setKey(event.key);
-            event.target.value = ""; // Clear the input field
+            // Limpia el input tras presionar una tecla
+            event.target.value = "";
         }
     };
 
@@ -28,7 +30,16 @@ export default function Content({ keyPressed }) {
                         <span className="sm:block"> US standard 101 </span>
                     </h1>
                     {isMobile ? (
-                        <input type="text" className="mt-6 border p-2 text-xl" onInput={handleInput} onKeyDown={handleKeyDown} placeholder="Presiona una tecla" />
+                        <div className="mt-6 text-xl">
+                            <p>Toca la pantalla y presiona una tecla</p>
+                            <input ref={inputRef} type="text" className="hidden" onKeyDown={handleKeyDown} aria-label="Tecla presionada" />
+                            <div
+                                className="editable-area"
+                                // Forzar enfoque en móviles
+                                onTouchStart={() => inputRef.current.focus()}
+                                style={{ height: "1px", width: "1px", opacity: 0 }}
+                            ></div>
+                        </div>
                     ) : (
                         <p className="mt-6 text-xl">Press the key you want to get the keycode for.</p>
                     )}
