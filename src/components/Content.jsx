@@ -5,21 +5,12 @@ import Display from './Display';
 export default function Content({ keyPressed }) {
     const [key, setKey] = useState(null);
 
-    // Manejar cuando el usuario escribe en el input
-    const handleChange = (event) => {
-        const input = event.target.value;
-        if (input.length > 0) {
-            setKey(input[input.length - 1]);
-        }
-    };
-
     // Manejar el evento keydown
     const handleKeyDown = (event) => {
+        // Captura la tecla presionada
+        setKey(event.key.toLowerCase());
+        // Cerrar el teclado virtual después de presionar (solo en mobile)
         if (isMobile) {
-            // Captura la tecla presionada
-            setKey(event.key);
-            event.target.value = 'Press a key';
-            // Cerrar el teclado virtual después de presionar
             event.target.blur();
         }
     };
@@ -30,10 +21,13 @@ export default function Content({ keyPressed }) {
             window.scrollTo(0, document.body.scrollHeight);
         };
 
+        // Agrega el listener para keydown en el documento
+        document.addEventListener('keydown', handleKeyDown);
         window.addEventListener('focusin', adjustForKeyboard);
         window.addEventListener('focusout', () => window.scrollTo(0, 0));
 
         return () => {
+            document.removeEventListener('keydown', handleKeyDown);
             window.removeEventListener('focusin', adjustForKeyboard);
             window.removeEventListener('focusout', () => window.scrollTo(0, 0));
         };
@@ -48,7 +42,7 @@ export default function Content({ keyPressed }) {
                         <span className="sm:block"> US standard 101 </span>
                     </h1>
                     {isMobile ? (
-                        <input type="text" className="mt-6 border p-2 text-xl" onChange={handleChange} onKeyDown={handleKeyDown} placeholder="Press a key " autoFocus />
+                        <input type="text" className="mt-6 border p-2 text-xl text-center" placeholder="Press a key" autoFocus style={{ textAlign: 'center' }} />
                     ) : (
                         <p className="mt-6 text-xl">Press the key you want to get the keycode for.</p>
                     )}
