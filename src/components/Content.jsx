@@ -1,18 +1,40 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { isMobile } from "react-device-detect";
 import Display from "./Display";
 
-export default function Content({ keyPressed, setKey }) {
+export default function Content({ keyPressed }) {
+    const [key, setKey] = useState(null);
+
     const handleInput = (event) => {
         const input = event.target.value;
         if (input.length > 0) {
-            // Capturamos la última tecla presionada
-            const lastKey = input[input.length - 1];
-            setKey(lastKey);
-            // Limpiamos el campo después de cada tecla
+            setKey(input[input.length - 1]);
+        }
+    };
+
+    const handleKeyDown = (event) => {
+        if (isMobile) {
+            setKey(event.key);
+            // Limpiar el campo de entrada después de presionar la tecla
             event.target.value = "";
         }
     };
+
+    // Efecto para ajustar el scroll cuando el teclado virtual aparece
+    useEffect(() => {
+        const adjustForKeyboard = () => {
+            window.scrollTo(0, document.body.scrollHeight);
+        };
+        // Cuando aparece el teclado
+        window.addEventListener("focusin", adjustForKeyboard);
+        // Cuando desaparece
+        window.addEventListener("focusout", () => window.scrollTo(0, 0));
+
+        return () => {
+            window.removeEventListener("focusin", adjustForKeyboard);
+            window.removeEventListener("focusout", () => window.scrollTo(0, 0));
+        };
+    }, []);
 
     return (
         <section className="bg-gray-900 text-white h-screen flex items-center">
@@ -22,11 +44,12 @@ export default function Content({ keyPressed, setKey }) {
                         getKeyCode
                         <span className="sm:block"> US standard 101 </span>
                     </h1>
-
-                    {isMobile ? <input type="text" className="mt-6 border p-2 text-xl" onInput={handleInput} placeholder="Presiona una tecla" autoFocus /> : <p className="mt-6 text-xl">Press the key you want to get the keycode for.</p>}
-
-                    {/* Mostrar el valor de la tecla presionada */}
-                    <Display keyPressed={keyPressed} />
+                    {isMobile ? (
+                        <input type="text" className="mt-6 border p-2 text-xl" onInput={handleInput} onKeyDown={handleKeyDown} placeholder="Presiona una tecla" autoFocus />
+                    ) : (
+                        <p className="mt-6 text-xl">Press the key you want to get the keycode for.</p>
+                    )}
+                    <Display keyPressed={key || keyPressed} />
                 </div>
             </div>
         </section>
