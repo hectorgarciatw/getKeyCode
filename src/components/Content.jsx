@@ -8,21 +8,19 @@ export default function Content({ keyPressed }) {
 
     useEffect(() => {
         if (isMobile && inputRef.current) {
-            // Enfocar el input automáticamente en móviles
+            // Enfocar automáticamente el input en móviles cuando el componente carga
             inputRef.current.focus();
         }
     }, []);
 
     const handleKeyDown = (event) => {
         if (isMobile) {
-            setKey(event.key);
             event.target.value = "";
         }
     };
 
     const handleTouchStart = () => {
         if (isMobile && inputRef.current) {
-            // Forzar enfoque en el input cuando se toca la pantalla
             inputRef.current.focus();
         }
     };
@@ -38,10 +36,10 @@ export default function Content({ keyPressed }) {
                     {isMobile ? (
                         <div className="mt-6 text-xl">
                             <p>Toca la pantalla y presiona una tecla</p>
-                            <input ref={inputRef} type="text" className="text-center mt-4 border p-2 text-xl opacity-50" onKeyDown={handleKeyDown} placeholder="Presiona una tecla" aria-label="Tecla presionada" />
+                            <input ref={inputRef} type="text" className="text-center mt-4 border p-2 text-xl opacity-50" onKeyDown={handleKeyDown} placeholder="Presiona una tecla" aria-label="Tecla presionada" autoFocus />
                         </div>
                     ) : (
-                        <p className="mt-6 text-xl">Press the key you want to get the keycode for.</p>
+                        <p className="mt-6 text-xl">Presiona una tecla para obtener su keycode.</p>
                     )}
                     <Display keyPressed={key || keyPressed} />
                 </div>
