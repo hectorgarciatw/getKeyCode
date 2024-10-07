@@ -10,26 +10,11 @@ export default function Content({ keyPressed }) {
         if (isMobile) {
             // Captura la tecla presionada
             setKey(event.key);
-            event.target.value = '';
+            event.target.value = ''; // Limpia el input
             // Cerrar el teclado virtual después de presionar
             event.target.blur();
         }
     };
-
-    // Efecto para ajustar el scroll cuando el teclado virtual aparece
-    useEffect(() => {
-        const adjustForKeyboard = () => {
-            window.scrollTo(0, document.body.scrollHeight);
-        };
-
-        window.addEventListener('focusin', adjustForKeyboard);
-        window.addEventListener('focusout', () => window.scrollTo(0, 0));
-
-        return () => {
-            window.removeEventListener('focusin', adjustForKeyboard);
-            window.removeEventListener('focusout', () => window.scrollTo(0, 0));
-        };
-    }, []);
 
     return (
         <section className="bg-gray-900 text-white h-screen flex items-center">
