@@ -61,15 +61,15 @@ input {
     padding: 0;
 }
 
-.input-custom::placeholder {
-    color: #888;
-}
-
 .input-custom {
     color: #888;
 }
 
-/* Asegurarse que el color cambie cuando hay un valor en el input */
+/* Placeholder color */
+.input-custom::placeholder {
+    color: #888;
+}
+
 .input-custom:not(:placeholder-shown) {
     color: white;
 }

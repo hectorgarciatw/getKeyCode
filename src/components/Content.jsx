@@ -48,7 +48,7 @@ export default function Content({ keyPressed }) {
                         <span className="sm:block"> US standard 101 </span>
                     </h1>
                     {isMobile ? (
-                        <input type="text" className="mt-6 border p-2 text-xl" onChange={handleChange} onKeyDown={handleKeyDown} placeholder="Presiona una tecla" autoFocus />
+                        <input type="text" className="mt-6 border p-2 text-xl" onChange={handleChange} onKeyDown={handleKeyDown} placeholder="Press the key you want to get the keycode for" autoFocus />
                     ) : (
                         <p className="mt-6 text-xl">Press the key you want to get the keycode for.</p>
                     )}
