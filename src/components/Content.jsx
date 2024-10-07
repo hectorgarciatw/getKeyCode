@@ -5,16 +5,39 @@ import Display from './Display';
 export default function Content({ keyPressed }) {
     const [key, setKey] = useState(null);
 
+    // Manejar cuando el usuario escribe en el input
+    const handleChange = (event) => {
+        const input = event.target.value;
+        if (input.length > 0) {
+            setKey(input[input.length - 1]);
+        }
+    };
+
     // Manejar el evento keydown
     const handleKeyDown = (event) => {
         if (isMobile) {
             // Captura la tecla presionada
             setKey(event.key);
-            event.target.value = ''; // Limpia el input
+            event.target.value = '';
             // Cerrar el teclado virtual después de presionar
             event.target.blur();
         }
     };
+
+    // Efecto para ajustar el scroll cuando el teclado virtual aparece
+    useEffect(() => {
+        const adjustForKeyboard = () => {
+            window.scrollTo(0, document.body.scrollHeight);
+        };
+
+        window.addEventListener('focusin', adjustForKeyboard);
+        window.addEventListener('focusout', () => window.scrollTo(0, 0));
+
+        return () => {
+            window.removeEventListener('focusin', adjustForKeyboard);
+            window.removeEventListener('focusout', () => window.scrollTo(0, 0));
+        };
+    }, []);
 
     return (
         <section className="bg-gray-900 text-white h-screen flex items-center">
@@ -25,7 +48,7 @@ export default function Content({ keyPressed }) {
                         <span className="sm:block"> US standard 101 </span>
                     </h1>
                     {isMobile ? (
-                        <input type="text" style={{ textAlign: 'center' }} className="mt-6 border p-2 text-xl" onKeyDown={handleKeyDown} placeholder="Press a key please..." autoFocus />
+                        <input type="text" style={{ textAlign: 'center' }} className="mt-6 border p-2 text-xl" onChange={handleChange} onKeyDown={handleKeyDown} placeholder="Press a key please..." autoFocus />
                     ) : (
                         <p className="mt-6 text-xl">Press the key you want to get the keycode for.</p>
                     )}
