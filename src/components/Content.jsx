@@ -4,10 +4,12 @@ import Display from './Display';
 
 export default function Content({ keyPressed }) {
     const [key, setKey] = useState(null);
+    const [inputValue, setInputValue] = useState(''); // Nuevo estado para el valor del input
 
     // Manejar cuando el usuario escribe en el input
     const handleChange = (event) => {
         const input = event.target.value;
+        setInputValue(input); // Actualiza el estado del input
         if (input.length > 0) {
             setKey(input[input.length - 1]);
         }
@@ -16,13 +18,10 @@ export default function Content({ keyPressed }) {
     // Manejar el evento keydown
     const handleKeyDown = (event) => {
         if (isMobile) {
-            setTimeout(() => {
-                // Captura la tecla presionada
-                setKey(event.key);
-                event.target.value = ''; // Limpia el input
-                // Cerrar el teclado virtual después de presionar
-                event.target.blur();
-            }, 0); // Retardamos la ejecución a la siguiente iteración del event loop
+            // Captura la tecla presionada
+            setKey(event.key);
+            setInputValue(''); // Limpia el valor del input aquí
+            event.target.blur(); // Cierra el teclado virtual
         }
     };
 
@@ -49,7 +48,18 @@ export default function Content({ keyPressed }) {
                         getKeyCode
                         <span className="sm:block"> US standard 101 </span>
                     </h1>
-                    {isMobile ? <input type="text" className="mt-6 border p-2 text-xl" onChange={handleChange} onKeyDown={handleKeyDown} autoFocus /> : <p className="mt-6 text-xl">Press the key you want to get the keycode for.</p>}
+                    {isMobile ? (
+                        <input
+                            type="text"
+                            className="mt-6 border p-2 text-xl"
+                            value={inputValue} // Establece el valor del input desde el estado
+                            onChange={handleChange}
+                            onKeyDown={handleKeyDown}
+                            autoFocus
+                        />
+                    ) : (
+                        <p className="mt-6 text-xl">Press the key you want to get the keycode for.</p>
+                    )}
                     <Display keyPressed={key || keyPressed} />
                 </div>
             </div>
