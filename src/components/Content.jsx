@@ -20,6 +20,7 @@ export default function Content({ keyPressed }) {
             // Captura la tecla presionada
             setKey(event.key);
             event.target.value = '';
+            event.target.placeholder = 'Press a key...';
             // Cerrar el teclado virtual después de presionar
             event.target.blur();
         }
