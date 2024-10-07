@@ -49,3 +49,14 @@ input {
         font-size: 3rem;
     }
 }
+
+/* Clase que se aplicará cuando el teclado esté activo en móvil */
+.keyboard-active {
+    padding-top: 0 !important;
+    margin-top: 0 !important;
+}
+
+.keyboard-active input {
+    margin: 0;
+    padding: 0;
+}
