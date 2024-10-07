@@ -1,50 +1,42 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { isMobile } from 'react-device-detect';
 import Display from './Display';
 
 export default function Content({ keyPressed }) {
-    const [key, setKey] = useState(null);
+    const [key, setKey] = useState(keyPressed || null);
     const [inputValue, setInputValue] = useState('');
+    const inputRef = useRef(null);
 
-    // Manejar cuando el usuario escribe en el input
     const handleChange = (event) => {
         const input = event.target.value;
-        setInputValue(input); // Actualiza el valor del input
+        setInputValue(input);
         if (input.length > 0) {
             setKey(input[input.length - 1]);
         }
     };
 
-    // Manejar el evento keydown
     const handleKeyDown = (event) => {
         if (isMobile) {
-            // Captura la tecla presionada
             setKey(event.key);
-            setInputValue(''); // Limpia el input
-            event.target.blur(); // Cierra el teclado virtual
+            setInputValue('');
+            event.target.blur();
+            event.stopPropagation();
         }
     };
 
-    // Asegurarse de que el input tenga foco
     useEffect(() => {
-        const inputElement = document.querySelector('input');
-        if (inputElement) {
-            inputElement.focus(); // Foco en el input
-        }
-    }, []);
-
-    // Efecto para ajustar el scroll cuando el teclado virtual aparece
-    useEffect(() => {
-        const adjustForKeyboard = () => {
-            window.scrollTo(0, document.body.scrollHeight);
+        const setFocus = () => {
+            if (inputRef.current) {
+                inputRef.current.focus();
+            }
         };
+        setFocus();
 
-        window.addEventListener('focusin', adjustForKeyboard);
-        window.addEventListener('focusout', () => window.scrollTo(0, 0));
-
+        // Cleanup on unmount
         return () => {
-            window.removeEventListener('focusin', adjustForKeyboard);
-            window.removeEventListener('focusout', () => window.scrollTo(0, 0));
+            if (inputRef.current) {
+                inputRef.current.blur();
+            }
         };
     }, []);
 
@@ -56,18 +48,7 @@ export default function Content({ keyPressed }) {
                         getKeyCode
                         <span className="sm:block"> US standard 101 </span>
                     </h1>
-                    {isMobile ? (
-                        <input
-                            type="text"
-                            className="mt-6 border p-2 text-xl"
-                            value={inputValue} // Controla el valor del input
-                            onChange={handleChange}
-                            onKeyDown={handleKeyDown}
-                            autoFocus
-                        />
-                    ) : (
-                        <p className="mt-6 text-xl">Press the key you want to get the keycode for.</p>
-                    )}
+                    {isMobile ? <input type="text" className="mt-6 border p-2 text-xl" value={inputValue} onChange={handleChange} onKeyDown={handleKeyDown} autoFocus /> : <p className="mt-6 text-xl">Press the key you want to get the keycode for.</p>}
                     <Display keyPressed={key || keyPressed} />
                 </div>
             </div>
