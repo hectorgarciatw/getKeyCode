@@ -8,21 +8,15 @@ export default function Content({ keyPressed }) {
     const handleInput = (event) => {
         const input = event.target.value;
         if (input.length > 0) {
-            // Captura la última tecla presionada
             setKey(input[input.length - 1]);
-
-            // Después de un pequeño retraso, limpia el campo y cierra el teclado virtual
-            setTimeout(() => {
-                event.target.blur();
-                //Limpiar después de capturar la tecla
-                event.target.value = "";
-            }, 50);
         }
     };
 
     const handleKeyDown = (event) => {
         if (isMobile) {
             setKey(event.key);
+            // Limpiar el campo de entrada después de presionar la tecla
+            event.target.value = "";
         }
     };
 
@@ -31,7 +25,7 @@ export default function Content({ keyPressed }) {
         const adjustForKeyboard = () => {
             window.scrollTo(0, document.body.scrollHeight);
         };
-        //Cuando aparece el teclado
+        // Cuando aparece el teclado
         window.addEventListener("focusin", adjustForKeyboard);
         // Cuando desaparece
         window.addEventListener("focusout", () => window.scrollTo(0, 0));
