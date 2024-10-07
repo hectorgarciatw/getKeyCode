@@ -60,3 +60,16 @@ input {
     margin: 0;
     padding: 0;
 }
+
+.input-custom::placeholder {
+    color: #888;
+}
+
+.input-custom {
+    color: #888;
+}
+
+/* Asegurarse que el color cambie cuando hay un valor en el input */
+.input-custom:not(:placeholder-shown) {
+    color: white;
+}
