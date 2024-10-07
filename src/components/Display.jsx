@@ -1,7 +1,6 @@
 import data from "../data/codes.json";
 
 export default function Display({ keyPressed }) {
-    // Filtrar el dato por keyPressed
     const filteredKey = data.filter((k) => k.key === keyPressed)[0];
 
     return (
